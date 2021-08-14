@@ -55,11 +55,11 @@ def sub():
                 # 修改完成，转为V2Ray系列客户端使用的节点链接格式
                 proxy_url = json_to_proxy_url(protocol, conf_json)
                 new_node_list.append(proxy_url)
-            elif "ssr" == node[:3]: # 不处理ssr
+            elif "ssr" == node[:3]:  # 不处理ssr
                 new_node_list.append(node)
-            elif "ss" == node[:2]: # 不处理ss
+            elif "ss" == node[:2]:  # 不处理ss
                 new_node_list.append(node)
-            else: # 不处理其他协议的链接
+            else:  # 不处理其他协议的链接
                 new_node_list.append(node)
         # 转为V2Ray系列客户端使用的订阅格式
         new_resp_text = base64.b64encode("\n".join(new_node_list).encode())
