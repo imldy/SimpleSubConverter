@@ -34,6 +34,8 @@ def sub():
     if request.method == 'GET':  # 请求方式是get
         sub_url = request.args.get('suburl')  # args取get方式参数
         new_host = request.args.get('newhost')
+        if sub_url is None:
+            return "订阅链接必不可少，请查阅项目文档https://github.com/imldy/SimpleSubConverter"
         try:
             sub_text = get_sub_text(sub_url=sub_url)
         except Exception:
