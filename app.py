@@ -29,17 +29,33 @@ def json_to_proxy_url(protocol, conf_json):
     return protocol + "://" + b64encode_result.decode()
 
 
+def key_include_in_name(name_key_list, name):
+    '''
+    判断节点名内是否包含关键字
+    :param name_key_list: 要判断的关键字列表
+    :param name: 节点名
+    :return: 节点名是否包含关键字
+    '''
+    for exclude_name_key in name_key_list:
+        if exclude_name_key in name:
+            return True
+    else:
+        return False
+
+
 @app.route('/sub', methods=['GET', 'POST'])
 def sub():
     if request.method == 'GET':  # 请求方式是get
         sub_url = request.args.get('suburl')  # args取get方式参数
         new_host = request.args.get('newhost')
+        name_exclude = request.args.get('nameexclude')
         if sub_url is None or sub_url == "":
             return "订阅链接必不可少，请查阅项目文档https://github.com/imldy/SimpleSubConverter"
         try:
             sub_text = get_sub_text(sub_url=sub_url)
         except Exception:
             return "订阅链接获取失败"
+        exclude_name_key_list = name_exclude.split(",")
         # 节点列表
         node_list = base64.b64decode(sub_text).decode().split("\r\n")
         # 处理后的节点列表
@@ -49,6 +65,12 @@ def sub():
             if "vmess" == node[:5]:  # 目前只处理vmess与vless
                 # 获取协议头和base64解码后的节点信息
                 protocol, conf_json = proxy_url_to_json(node)
+                # 处理根据节点名过滤
+                if name_exclude is not None and name_exclude != "":
+                    # 判断关键字是否包含在节点名内
+                    if key_include_in_name(exclude_name_key_list, conf_json["ps"]):
+                        # 如果节点名包含需要排除的关键字，则跳过此节点
+                        continue
                 # 判断是否需要修改host
                 if new_host is not None and new_host != "":
                     conf_json["host"] = new_host
