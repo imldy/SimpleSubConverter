@@ -109,7 +109,7 @@ http://100.100.100.100:20088/sub?suburl=http%3A%2F%2Fbaidu.com&newhost=www.gov.h
 | suburl  | 必要   | http%3A%2F%2Fbaidu.com | 指机场所提供的订阅链接，需要经过 [URLEncode](https://www.urlencoder.org/) 处理 | ✔ |
 | newhost | 可选   | www.gov.hk         | 要指定的配置节点中的Host（ws/tls等的host），默认不改变 | ✔ |
 | nameinclude | 可选 | 中转 |  | ❌ |
-| nameexclude | 可选 | 游戏 |  | ✔ |
+| nameexclude | 可选 | 游戏,测试 |  | ✔ |
 | addressinclude | 可选 | 100.0.0.0/8 |  | ❌ |
 | addressexclude | 可选 | 100.0.0.0/8 |  | ❌ |
 
