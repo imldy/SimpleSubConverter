@@ -55,7 +55,12 @@ def sub():
             sub_text = get_sub_text(sub_url=sub_url)
         except Exception:
             return "订阅链接获取失败"
-        exclude_name_key_list = name_exclude.split(",")
+        # 判断否是要进行节点名过滤
+        name_exclude_flag = False
+        exclude_name_key_list = []
+        if name_exclude is not None and name_exclude != "":
+            name_exclude_flag = True
+            exclude_name_key_list = name_exclude.split(",")
         # 节点列表
         node_list = base64.b64decode(sub_text).decode().split("\r\n")
         # 处理后的节点列表
@@ -66,7 +71,7 @@ def sub():
                 # 获取协议头和base64解码后的节点信息
                 protocol, conf_json = proxy_url_to_json(node)
                 # 处理根据节点名过滤
-                if name_exclude is not None and name_exclude != "":
+                if name_exclude_flag:
                     # 判断关键字是否包含在节点名内
                     if key_include_in_name(exclude_name_key_list, conf_json["ps"]):
                         # 如果节点名包含需要排除的关键字，则跳过此节点
