@@ -79,6 +79,8 @@ def sub():
                 # 判断是否需要修改host
                 if new_host is not None and new_host != "":
                     conf_json["host"] = new_host
+                    if "sni" in list(conf_json.keys()): # 如果使用了tls，则要处理增加的sni字段
+                        conf_json["sni"] = new_host
                 # 修改完成，转为V2Ray系列客户端使用的节点链接格式
                 proxy_url = json_to_proxy_url(protocol, conf_json)
                 new_node_list.append(proxy_url)
