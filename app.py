@@ -62,7 +62,7 @@ def sub():
             name_exclude_flag = True
             exclude_name_key_list = name_exclude.split(",")
         # 节点列表
-        node_list = base64.b64decode(sub_text).decode().split("\r\n")
+        node_list = base64.b64decode(sub_text).decode().split("\n")
         # 处理后的节点列表
         new_node_list = []
         # 挨个处理节点
