@@ -95,6 +95,7 @@ def modify_format_to_Clash(args, sub_text):
             if args["change_host_flag"]:
                 # 判断传输协议(network)
                 if proxy["network"] == "ws":
+                    proxy["ws-headers"] = {}
                     proxy["ws-headers"]["Host"] = args["new_host"]
                     if proxy["tls"] == True:  # 判断是否开了tls（如果使用了tls，则要处理增加的sni字段）
                         proxy["servername"] = args["new_host"]
