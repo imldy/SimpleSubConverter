@@ -17,7 +17,7 @@ cd SimpleSubConverter # 进入仓库目录（工作目录）
 python3 -m venv myvenv # 创建一个虚拟环境。会在仓库目录创建一个myvenv目录
 source myvenv/bin/activate # 激活虚拟环境（读取环境变量）或者“. myvenv/bin/activate”
 pip3 install --upgrade pip # 升级pip
-pip3 install flask gunicorn requests # 安装所需库
+pip3 install flask gunicorn requests pyyaml # 安装所需库
 gunicorn app:app -b 127.0.0.1:20088 -w 2 # 前台启动 第一个app代表app.py，-b 监听ip与端口 -w 设置进程数
 ```
 
