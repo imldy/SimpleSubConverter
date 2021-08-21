@@ -96,14 +96,16 @@ def modify_format_to_Clash(args, sub_text):
                     continue
             # 判断是否需要修改host
             if args["change_host_flag"]:
-                # 判断传输协议(network)
-                if proxy["network"] == "ws":
-                    proxy["ws-headers"] = {}
-                    proxy["ws-headers"]["Host"] = args["new_host"]
-                    if "tls" in list(proxy.keys()) and proxy["tls"] == True:  # 判断是否开了tls（如果使用了tls，则要处理增加的sni字段）
-                        proxy["servername"] = args["new_host"]
-
-                else:  # 暂时只持ws
+                # 判断传输协议(network)，如果没有network，那就不处理
+                if "network" in list(proxy.keys()):
+                    if proxy["network"] == "ws":
+                        proxy["ws-headers"] = {}
+                        proxy["ws-headers"]["Host"] = args["new_host"]
+                        if "tls" in list(proxy.keys()) and proxy["tls"] == True:  # 判断是否开了tls（如果使用了tls，则要处理增加的sni字段）
+                            proxy["servername"] = args["new_host"]
+                    else:  # 暂时只持ws
+                        pass
+                else:  # 暂时只持network键存在的情况
                     pass
             new_proxies.append(proxy)
         elif "ss" == proxy["type"]:
