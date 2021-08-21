@@ -167,7 +167,7 @@ def sub():
         }
         if sub_format == Clash_sub:
             target_sub_text = modify_format_to_Clash(args, sub_text)
-        else: # 默认修改为V2Ray系客户端格式，其他后续支持
+        else:  # 默认修改为V2Ray系客户端格式，其他后续支持
             target_sub_text = modify_format_to_V2Ray(args, sub_text)
         return target_sub_text
     elif request.method == 'POST':
