@@ -12,8 +12,9 @@ def index():
     return 'SimpleSubConverter'
 
 
-def get_sub_text(sub_url: str):
-    resp = rqs.get(url=sub_url)
+def get_sub_text(sub_url: str, UA):
+    headers = {'User-Agent': UA}
+    resp = rqs.get(url=sub_url, headers=headers)
     sub_text = resp.text
     return sub_text
 
@@ -129,6 +130,7 @@ def get_sub_format(sub_text):
 @app.route('/sub', methods=['GET', 'POST'])
 def sub():
     if request.method == 'GET':  # 请求方式是get
+        UA = request.headers.get('User-Agent')
         sub_url = request.args.get('suburl')  # args取get方式参数
         new_host = request.args.get('newhost')
         name_exclude = request.args.get('nameexclude')
@@ -136,7 +138,7 @@ def sub():
         if sub_url is None or sub_url == "":
             return "订阅链接必不可少，请查阅项目文档https://github.com/imldy/SimpleSubConverter"
         try:
-            sub_text = get_sub_text(sub_url=sub_url)
+            sub_text = get_sub_text(sub_url=sub_url, UA=UA)
         except Exception:
             return "订阅链接获取失败"
         if target_sub_format is None or sub_url == "":  # 默认目标格式为V2Ray系客户端订阅
