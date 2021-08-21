@@ -97,7 +97,7 @@ def modify_format_to_Clash(args, sub_text):
                 if proxy["network"] == "ws":
                     proxy["ws-headers"] = {}
                     proxy["ws-headers"]["Host"] = args["new_host"]
-                    if proxy["tls"] == True:  # 判断是否开了tls（如果使用了tls，则要处理增加的sni字段）
+                    if "tls" in list(proxy.keys()) and proxy["tls"] == True:  # 判断是否开了tls（如果使用了tls，则要处理增加的sni字段）
                         proxy["servername"] = args["new_host"]
 
                 else:  # 暂时只持ws
