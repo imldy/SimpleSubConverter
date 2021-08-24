@@ -112,6 +112,10 @@ http://100.100.100.100:20088/sub?suburl=http%3A%2F%2Fbaidu.com&newhost=www.gov.h
 | newhost | 可选   | www.gov.hk         | 要指定的配置节点中的Host（ws/tls等的host），默认不改变 | ✔ |
 | nameinclude | 可选 | 中转 |  | ❌ |
 | nameexclude | 可选 | 游戏,测试 |  | ✔ |
+| protocolinclude | 可选 | vmess,vless | 指定需要的代理协议类型 | 🟡 |
+| protocolexclude | 可选 | ss,trojan | 指定不需要的代理协议类型 | ❌ |
+| networkinclude | 可选 | ws,tcp+http,h2 | 指定需要的传输协议（数据流所使用的网络类型） | 🟡 |
+| networkexclude | 可选 | quic,grpc | 指定不需要的传输协议（数据流所使用的网络类型） | ❌ |
 | addressinclude | 可选 | 100.0.0.0/8 |  | ❌ |
 | addressexclude | 可选 | 100.0.0.0/8 |  | ❌ |
 
