@@ -103,10 +103,12 @@ http://100.100.100.100:20088/sub?suburl=http%3A%2F%2Fbaidu.com&newhost=www.gov.h
 
 ### 详细参数：
 
+**参数全部需要进行[UrlEncode](https://tool.chinaz.com/tools/urlencode.aspx)，但此处为了方便查看示例，所以使用明文。**
+
 | 参数    | 必要性 | 示例                      | 解释                                                         | 是否已实现                                                |
 | ------- | ------ | ------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | target  | 可选   | V2Ray                 | 指定要生成的配置类型，默认不改变给定的链接返回的订阅格式   | ❌    |
-| suburl  | 必要   | http%3A%2F%2Fbaidu.com | 指机场所提供的订阅链接，需要经过 [URLEncode](https://www.urlencoder.org/) 处理 | ✔ |
+| suburl  | 必要   | https://baidu.com/ | 原订阅链接 | ✔ |
 | newhost | 可选   | www.gov.hk         | 要指定的配置节点中的Host（ws/tls等的host），默认不改变 | ✔ |
 | nameinclude | 可选 | 中转 |  | ❌ |
 | nameexclude | 可选 | 游戏,测试 |  | ✔ |
