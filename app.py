@@ -14,7 +14,8 @@ def index():
 
 def get_sub_text(sub_url: str, UA):
     headers = {'User-Agent': UA}
-    resp = rqs.get(url=sub_url, headers=headers)
+    proxies = {"http": None, "https": None}
+    resp = rqs.get(url=sub_url, headers=headers, proxies=proxies)
     sub_text = resp.text
     return sub_text
 
