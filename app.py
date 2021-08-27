@@ -45,9 +45,22 @@ def key_include_in_name(name_key_list, name):
         return False
 
 
+def decode_base64(data):
+    """Decode base64, padding being optional.
+
+    :param data: Base64 data as an ASCII byte string
+    :returns: The decoded byte string.
+
+    """
+    missing_padding = len(data) % 4
+    if missing_padding != 0:
+        data += b'=' * (4 - missing_padding)
+    return base64.decodebytes(data)
+
+
 def modify_format_to_V2Ray(args, sub_text):
     # 节点列表
-    node_list = base64.b64decode(sub_text).decode().split("\n")
+    node_list = decode_base64(sub_text.strip().encode()).decode().split("\n")
     # 处理后的节点列表
     new_node_list = []
     # 挨个处理节点
