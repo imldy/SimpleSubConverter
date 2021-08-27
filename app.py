@@ -178,8 +178,12 @@ def sub():
             return "订阅链接必不可少，请查阅项目文档https://github.com/imldy/SimpleSubConverter"
         try:
             sub_text = get_sub_text(sub_url=sub_url, UA=UA)
-        except Exception:
-            return "订阅链接获取失败"
+        except rqs.exceptions.ProxyError as e:
+            return "订阅链接获取失败：{}\n{}".format("服务器请求代理错误", e)
+        except rqs.exceptions.ConnectionError as e:
+            return "订阅链接获取失败：{}\n{}".format("服务器请求连接错误", e)
+        except Exception as e:
+            return "订阅链接获取失败：{}\n{}".format("未知异常", e)
         if target_sub_format is None or sub_url == "":  # 默认目标格式为V2Ray系客户端订阅
             target_sub_format = V2Ray_sub
         # 判断订阅格式
