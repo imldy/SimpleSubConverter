@@ -151,7 +151,7 @@ def modify_format_to_Clash(args, sub_text):
     # 替换为修改后的proxy-groups
     sub_yaml_text["proxy-groups"] = new_proxy_groups
 
-    Clash_sub_text = yaml.dump(sub_yaml_text).encode('utf-8')
+    Clash_sub_text = yaml.dump(sub_yaml_text, allow_unicode=True).encode('utf-8')
     return Clash_sub_text
 
 
