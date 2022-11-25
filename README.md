@@ -115,3 +115,6 @@ http://100.100.100.100:20088/sub?suburl=http%3A%2F%2Fbaidu.com&newhost=www.gov.h
 | addressinclude | 可选 | 100.0.0.0/8 |  | ❌ |
 | addressexclude | 可选 | 100.0.0.0/8 |  | ❌ |
 
+## 赞助
+
+感谢本项目分支开发商赞助：[橘子订阅转换](https://api.orangeapi.org/)
