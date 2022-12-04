@@ -5,6 +5,7 @@
 1. 修改节点的伪装host
 2. 根据节点名过滤订阅（已实现排除包含关键字的节点功能）
 3. 根据节点地址过滤订阅（待开发）
+4. 返回订阅信息（流量、到期时间等）。实现方法：[Subscription-Userinfo](https://github.com/crossutility/Quantumult/blob/master/extra-subscription-feature.md)
 
 ## 部署
 
