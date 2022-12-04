@@ -13,6 +13,12 @@ def index():
 
 
 def get_sub_text(sub_url: str, UA):
+    """
+    获取订阅信息的统一方法
+    :param sub_url: 订阅地址
+    :param UA: 原UA
+    :return: 订阅的文本
+    """
     headers = {'User-Agent': UA}
     proxies = {"http": None, "https": None}
     resp = rqs.get(url=sub_url, headers=headers, proxies=proxies)
@@ -21,6 +27,11 @@ def get_sub_text(sub_url: str, UA):
 
 
 def proxy_url_to_json(proxy_url):
+    """
+    （通常用于v2rayN系应用的）代理节点url转为json格式
+    :param proxy_url: （通常用于v2rayN系应用的）代理节点
+    :return: 代理协议和Json文本的字典对象
+    """
     protocol, url = proxy_url.split("://")
     b64decode_result: bytes = base64.b64decode(url)
     conf_json: dict = json.loads(b64decode_result.decode())
@@ -28,17 +39,23 @@ def proxy_url_to_json(proxy_url):
 
 
 def json_to_proxy_url(protocol, conf_json):
+    """
+    json格式转为（通常用于v2rayN系应用的）代理节点url
+    :param protocol: 代理协议
+    :param conf_json: Json文本的字典对象
+    :return:
+    """
     b64encode_result: bytes = base64.b64encode(bytes(json.dumps(conf_json), encoding="utf-8"))
     return protocol + "://" + b64encode_result.decode()
 
 
 def key_include_in_name(name_key_list, name):
-    '''
+    """
     判断节点名内是否包含关键字
     :param name_key_list: 要判断的关键字列表
     :param name: 节点名
     :return: 节点名是否包含关键字
-    '''
+    """
     for exclude_name_key in name_key_list:
         if exclude_name_key in name:
             return True
@@ -60,6 +77,12 @@ def decode_base64(data):
 
 
 def modify_format_to_V2Ray(args, sub_text):
+    """
+    转换订阅格式为V2RayN系应用格式
+    :param args: 全局转换参数
+    :param sub_text: 订阅的文本信息
+    :return:
+    """
     # 节点列表
     node_list = decode_base64(sub_text.strip().encode()).decode().split("\n")
     # 处理后的节点列表
@@ -95,6 +118,12 @@ def modify_format_to_V2Ray(args, sub_text):
 
 
 def modify_format_to_Clash(args, sub_text):
+    """
+    转换订阅格式为Clash系应用格式
+    :param args: 全局转换参数
+    :param sub_text: 订阅的文本信息
+    :return:
+    """
     sub_yaml_text = yaml.load(sub_text, Loader=yaml.FullLoader)
     proxies = sub_yaml_text["proxies"]
     new_proxies = []
@@ -160,6 +189,11 @@ V2Ray_sub = "V2Ray"
 
 
 def get_sub_format(sub_text):
+    """
+    根据订阅文本信息，确定订阅格式
+    :param sub_text:
+    :return:
+    """
     if "allow-lan" in sub_text:
         sub_format = Clash_sub
     else:
