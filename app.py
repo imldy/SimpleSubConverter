@@ -131,15 +131,14 @@ def modify_format_to_Clash(args, sub_text):
     sub_yaml_text = yaml.load(sub_text, Loader=yaml.FullLoader)
     proxies = sub_yaml_text["proxies"]
     new_proxies = []
-    exclude_list = []
+    proxy_name_list = []
     for proxy in proxies:
         if "vmess" == proxy["type"]:
             # 过滤节点名
             if args["name_exclude_flag"]:
                 # 判断关键字是否包含在节点名内
                 if key_include_in_name(args["exclude_name_key_list"], proxy["name"]):
-                    # 如果节点名包含需要排除的关键字，则跳过此节点
-                    exclude_list.append(proxy["name"])
+                    # 跳过此节点
                     continue
             # 判断是否需要修改host
             if args["change_host_flag"]:
@@ -154,6 +153,7 @@ def modify_format_to_Clash(args, sub_text):
                         pass
                 else:  # 暂时只持network键存在的情况
                     pass
+            proxy_name_list.append(proxy["name"])
             new_proxies.append(proxy)
         elif "ss" == proxy["type"]:
             new_proxies.append(proxy)
@@ -168,14 +168,10 @@ def modify_format_to_Clash(args, sub_text):
     for proxy_group in proxy_groups:
         proxies = proxy_group["proxies"]
         new_proxies = []
-        for proxy in proxies:
-            # 过滤节点名(proxy)
-            if args["name_exclude_flag"]:
-                # 判断关键字是否包含在节点名内
-                if key_include_in_name(exclude_list, proxy):
-                    # 如果节点名包含需要排除的关键字，则跳过此节点
-                    continue
-            new_proxies.append(proxy)
+        for proxy_name in proxies:
+            # 保留节点名
+            if proxy_name in proxy_name_list:
+                new_proxies.append(proxy_name)
         # 替换为修改后的proxies
         proxy_group["proxies"] = new_proxies
 
