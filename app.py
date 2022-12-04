@@ -135,7 +135,8 @@ def modify_format_to_Clash(args, sub_text):
     sub_yaml_text = yaml.load(sub_text, Loader=yaml.FullLoader)
     proxies = sub_yaml_text["proxies"]
     new_proxies = []
-    proxy_name_list = []
+    # 要保留的代理列表
+    proxy_name_list = ["DIRECT", "REJECT"]
     for proxy in proxies:
         if "vmess" == proxy["type"]:
             # 过滤节点名
@@ -171,6 +172,11 @@ def modify_format_to_Clash(args, sub_text):
     sub_yaml_text["proxies"] = new_proxies
     # 过滤proxy-groups中的节点
     proxy_groups = sub_yaml_text["proxy-groups"]
+
+    for proxy_group in proxy_groups:
+        # 群组名，需要保留
+        proxy_name_list.append(proxy_group["name"])
+
     new_proxy_groups = []
     for proxy_group in proxy_groups:
         proxies = proxy_group["proxies"]
