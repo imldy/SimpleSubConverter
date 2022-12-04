@@ -20,6 +20,7 @@ def get_sub_text(sub_url: str, UA):
     :param UA: 原UA
     :return: 订阅的文本
     """
+    ResponseHeaders = {}
     headers = {'User-Agent': UA}
     proxies = {"http": None, "https": None}
     resp: rqs.Response = rqs.get(url=sub_url, headers=headers, proxies=proxies)
@@ -27,7 +28,7 @@ def get_sub_text(sub_url: str, UA):
         if head_key in conf.ResponseHeadersKeyList:
             ResponseHeaders[head_key] = resp.headers[head_key]
     sub_text = resp.text
-    return sub_text
+    return sub_text, ResponseHeaders
 
 
 def proxy_url_to_json(proxy_url):
@@ -192,7 +193,6 @@ def modify_format_to_Clash(args, sub_text):
 
 Clash_sub = "Clash"
 V2Ray_sub = "V2Ray"
-ResponseHeaders = {}
 
 
 def get_sub_format(sub_text):
@@ -220,7 +220,7 @@ def sub():
         if sub_url is None or sub_url == "":
             return "订阅链接必不可少，请查阅项目文档https://github.com/imldy/SimpleSubConverter"
         try:
-            sub_text = get_sub_text(sub_url=sub_url, UA=UA)
+            sub_text, ResponseHeaders = get_sub_text(sub_url=sub_url, UA=UA)
         except rqs.exceptions.ProxyError as e:
             return "订阅链接获取失败：{}\n{}".format("服务器请求代理错误", e)
         except rqs.exceptions.ConnectionError as e:
