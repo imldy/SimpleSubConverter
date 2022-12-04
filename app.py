@@ -3,6 +3,7 @@ import requests as rqs
 import base64
 import json
 import yaml
+import conf
 
 app = Flask(__name__)
 
@@ -21,7 +22,10 @@ def get_sub_text(sub_url: str, UA):
     """
     headers = {'User-Agent': UA}
     proxies = {"http": None, "https": None}
-    resp = rqs.get(url=sub_url, headers=headers, proxies=proxies)
+    resp: rqs.Response = rqs.get(url=sub_url, headers=headers, proxies=proxies)
+    for head_key in resp.headers:
+        if head_key in conf.ResponseHeadersKeyList:
+            ResponseHeaders[head_key] = resp.headers[head_key]
     sub_text = resp.text
     return sub_text
 
@@ -186,6 +190,7 @@ def modify_format_to_Clash(args, sub_text):
 
 Clash_sub = "Clash"
 V2Ray_sub = "V2Ray"
+ResponseHeaders = {}
 
 
 def get_sub_format(sub_text):
@@ -249,7 +254,7 @@ def sub():
             target_sub_text = modify_format_to_Clash(args, sub_text)
         else:  # 默认修改为V2Ray系客户端格式，其他后续支持
             target_sub_text = modify_format_to_V2Ray(args, sub_text)
-        return target_sub_text
+        return target_sub_text, 200, ResponseHeaders
     elif request.method == 'POST':
         return "The POST method is not supported"
     return 'SimpleSubConverter'
