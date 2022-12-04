@@ -102,6 +102,9 @@ def modify_format_to_V2Ray(args, sub_text):
                 if key_include_in_name(args["exclude_name_key_list"], conf_json["ps"]):
                     # 如果节点名包含需要排除的关键字，则跳过此节点
                     continue
+            if args["name_include_flag"]:
+                if not key_include_in_name(args["include_name_key_list"], conf_json["ps"]):
+                    continue
             # 判断是否需要修改host
             if args["new_host"] is not None and args["new_host"] != "":
                 conf_json["host"] = args["new_host"]
@@ -139,6 +142,9 @@ def modify_format_to_Clash(args, sub_text):
                 # 判断关键字是否包含在节点名内
                 if key_include_in_name(args["exclude_name_key_list"], proxy["name"]):
                     # 跳过此节点
+                    continue
+            if args["name_include_flag"]:
+                if not key_include_in_name(args["include_name_key_list"], proxy["name"]):
                     continue
             # 判断是否需要修改host
             if args["change_host_flag"]:
@@ -209,6 +215,7 @@ def sub():
         sub_url = request.args.get('suburl')  # args取get方式参数
         new_host = request.args.get('newhost')
         name_exclude = request.args.get('nameexclude')
+        name_include = request.args.get('nameinclude')
         target_sub_format = request.args.get('target')
         if sub_url is None or sub_url == "":
             return "订阅链接必不可少，请查阅项目文档https://github.com/imldy/SimpleSubConverter"
@@ -230,6 +237,11 @@ def sub():
         if name_exclude is not None and name_exclude != "":
             name_exclude_flag = True
             exclude_name_key_list = name_exclude.split(",")
+        name_include_flag = False
+        include_name_key_list = []
+        if name_include is not None and name_include != "":
+            name_include_flag = True
+            include_name_key_list = name_include.split(",")
         # 判断是否要修改host
         change_host_flag = False
         if new_host is not None and new_host != "":
@@ -243,6 +255,9 @@ def sub():
             "new_host": new_host,
             "name_exclude_flag": name_exclude_flag,
             "name_exclude": name_exclude,
+            "name_include_flag": name_include_flag,
+            "name_include": name_include,
+            "include_name_key_list": include_name_key_list,
             "target_sub_format": target_sub_format,
             "exclude_name_key_list": exclude_name_key_list
         }
