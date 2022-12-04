@@ -25,7 +25,7 @@ def get_sub_text(sub_url: str, UA):
     proxies = {"http": None, "https": None}
     resp: rqs.Response = rqs.get(url=sub_url, headers=headers, proxies=proxies)
     for head_key in resp.headers:
-        if head_key in conf.ResponseHeadersKeyList:
+        if head_key.title() in conf.ResponseHeadersKeyList:
             ResponseHeaders[head_key] = resp.headers[head_key]
     sub_text = resp.text
     return sub_text, ResponseHeaders
